@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h2>Venda</h2>            
+            <h:form>
+                <p:growl autoUpdate="true" showDetail="true"/>
+
+                <p:panelGrid columns="2">
+
+                    Data:<p:calendar value="#{vendaControle.venda.dataVenda}" 
+                                     required="true" 
+                                     requiredMessage="O nome é obrigatório!"
+                                     pattern="dd/MM/yyyy"
+                                     locale="pt_BR"/>
+
+                    Pessoa:<p:autoComplete value="#{vendaControle.venda.pessoa}" 
+                                           converter="#{vendaControle.pessoaConverter}"
+                                           completeMethod="#{vendaControle.listaPessoas}" var="pe" 
+                                           itemLabel="#{pe.nome}" 
+                                           itemValue="#{pe}"/>
+
+                    Comanda:<p:autoComplete value="#{vendaControle.venda.comanda}" 
+                                            required="true" 
+                                            requiredMessage="A comanda é obrigatória!"
+                                            converter="#{vendaControle.comandaConverter}"
+                                            completeMethod="#{vendaControle.listaComandasDisponiveis}" var="cmd" 
+                                            itemLabel="#{cmd.numero}" 
+                                            itemValue="#{cmd}"/>    
+                </p:panelGrid>
+
+                <p:panel header="Itens da venda">
+                    Produto:<p:autoComplete value="#{vendaControle.itensVenda.produto}" 
+                                            converter="#{vendaControle.produtoConverter}"
+                                            completeMethod="#{vendaControle.listaProdutos}" var="pro" 
+                                            itemLabel="#{pro.nomePreco}"                                            
+                                            itemValue="#{pro}"/>
+                    Quantidade:<p:inputText value="#{vendaControle.itensVenda.quantidade}"/>
+
+                    <p:commandButton value="Adicionar" 
+                                     actionListener="#{vendaControle.addItem()}"
+                                     ajax="false"
+                                     />
+
+                    <p:dataTable  value="#{vendaControle.venda.itensVendas}" 
+                                  var="iv"
+                                  emptyMessage="Nenhum item adicionado!"
+                                  paginator="true"
+                                  >
+                        <p:column headerText="Nome">
+                            #{iv.produto.nome}
+                        </p:column>
+                        <p:column headerText="Valor">
+                            #{iv.preco}
+                        </p:column>
+                        <p:column headerText="Quantidade">
+                            #{iv.quantidade}
+                        </p:column>
+                        <p:column headerText="SubTotal">
+                            #{iv.subTotal}
+                        </p:column>
+                        <c:if test="#{not vendaControle.venda.comandaFechada}" >
+                            <p:column headerText="Remover">
+                                <p:commandButton icon="ui-icon-closethick" actionListener="#{vendaControle.removerItem(iv)}"  ajax="false"/>
+
+                            </p:column>
+                        </c:if>
+                    </p:dataTable>
+                    <p:outputLabel value="Total: #{vendaControle.venda.total}" style="color: blue;font-size: x-large"/>
+          
+                    Valor Pago: <p:inputText value="#{vendaControle.troco}" style="color: red;font-size: x-large"/>
+                </p:panel>
+                <c:if test="#{not vendaControle.venda.comandaFechada}" >
+                    <p:commandButton value="Salvar" action="/index" actionListener="#{vendaControle.salvar()}" ajax="false"/>
+                    <!--<p:commandButton value="Finalizar" type="button" onclick="PF('dlg1').show();" />-->
+                    <p:commandButton value="Finalizar" action="/index" actionListener="#{vendaControle.fechar()}" ajax="false"/>
+                --></c:if>
+                
+                <p:commandButton value="Cancelar" action="/index" ajax="false" immediate="true"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

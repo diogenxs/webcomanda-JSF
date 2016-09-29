@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h2>Lista de Produtos</h2>
+            <h:form>
+                <p:dataTable value="#{produtoControle.listaTodos()}"
+                             paginator="true"
+                             rows="5"
+                             var="prod">
+                    <p:column headerText="Nome" filterBy="#{prod.nome}" filterMatchMode="contains">
+                        #{prod.nome}
+                    </p:column>
+                    <p:column headerText="Tipo Produto" filterBy="#{prod.tipoProduto}" filterMatchMode="contains">
+                        #{prod.tipoProduto.descricao}
+                    </p:column>
+                    <p:column headerText="Preço" filterBy="#{prod.preco}" filterMatchMode="contains">
+                        #{prod.preco}
+                    </p:column>
+                    <p:column headerText="Estoque" filterBy="#{prod.estoque}" filterMatchMode="contains">
+                        #{prod.estoque}
+                    </p:column>
+                    <p:column headerText="Operações">
+                        <p:commandButton icon="ui-icon-pencil" actionListener="#{produtoControle.editar(prod)}" action="editaproduto" ajax="false"/>
+                        <p:commandButton icon="ui-icon-closethick" actionListener="#{produtoControle.remover(prod)}" action="listaproduto" ajax="false"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Voltar" action="../index" ajax="false"/>
+                <p:commandButton value="Novo" action="editaproduto" actionListener="#{produtoControle.novo()}" ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

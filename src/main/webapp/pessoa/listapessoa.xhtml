@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h2>Lista de Pessoa</h2>
+            <h:form>
+                <p:dataTable value="#{pessoaControle.listaTodos()}"
+                             paginator="true"
+                             rows="5"
+                             var="pes">
+                    <p:column headerText="Nome" filterBy="#{pes.nome}" filterMatchMode="contains">
+                        #{pes.nome}
+                    </p:column>
+                    <p:column headerText="Telefone" filterBy="#{pes.telefone}" filterMatchMode="contains">
+                        #{pes.telefone}
+                    </p:column>
+                    <p:column headerText="Endereco" filterBy="#{pes.endereco}" filterMatchMode="contains">
+                        #{pes.endereco}
+                    </p:column>
+                    <p:column headerText="Numero" filterBy="#{pes.numero}" filterMatchMode="contains">
+                        #{pes.numero}
+                    </p:column>
+                    <p:column headerText="Bairro" filterBy="#{pes.bairro}" filterMatchMode="contains">
+                        #{pes.bairro}
+                    </p:column>
+                    <p:column headerText="Cidade" filterBy="#{pes.cidade.nome}" filterMatchMode="contains">
+                        #{pes.cidade.nome}
+                    </p:column>
+                    <p:column headerText="CPF/CNPJ" filterBy="#{pes.cpfCnpj}" filterMatchMode="contains">
+                        #{pes.cpfCnpj}
+                    </p:column>
+                    <p:column headerText="Operações">
+                        <p:commandButton icon="ui-icon-pencil" action="#{pessoaControle.editar(pes)}" ajax="false"/>
+                        <p:commandButton icon="ui-icon-closethick" actionListener="#{pessoaControle.remover(pes)}" action="listapessoa" ajax="false"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Voltar" action="../index" ajax="false"/>
+                <p:commandButton value="Nova PF" action="editapessoafisica" actionListener="#{pessoaFisicaControle.novo()}" ajax="false"/>
+                <p:commandButton value="Nova PJ" action="editapessoajuridica" actionListener="#{pessoaJuridicaControle.novo()}" ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

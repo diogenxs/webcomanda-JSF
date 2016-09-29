@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h2>Lista de Tipo Produtos</h2>
+            <h:form>
+                <p:dataTable value="#{tipoProdutoControle.listaTodos()}"
+                             paginator="true"
+                             rows="5"
+                             var="tpprod">
+                    <p:column headerText="Categoria" filterBy="#{tpprod.descricao}" filterMatchMode="contains">
+                        #{tpprod.descricao}
+                    </p:column>
+                    <p:column headerText="Descrição" filterBy="#{tpprod.tipoProduto.descricao}" filterMatchMode="contains">
+                        #{tpprod.tipoProduto.descricao}
+                    </p:column>
+                    <p:column headerText="Operações">
+                        <p:commandButton icon="ui-icon-pencil" actionListener="#{tipoProdutoControle.editar(tpprod)}" action="editatipoproduto" ajax="false"/>
+                        <p:commandButton icon="ui-icon-closethick" actionListener="#{tipoProdutoControle.remover(tpprod)}" action="listatipoproduto" ajax="false"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Voltar" action="../index" ajax="false"/>
+                <p:commandButton value="Novo" action="editatipoproduto" actionListener="#{tipoProdutoControle.novo()}" ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

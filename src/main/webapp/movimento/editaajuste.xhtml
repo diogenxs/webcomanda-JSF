@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h2>Ajuste</h2>            
+            <h:form>
+                <p:messages autoUpdate="true"/>
+                <p:panelGrid columns="2">                    
+                    Data:<p:calendar value="#{ajusteControle.ajuste.dataajuste}" 
+                                     required="true" 
+                                     requiredMessage="A data é obrigatória!"
+                                     pattern="dd/MM/yyyy"
+                                     locale="pt_BR"/>
+                    Produto:<p:autoComplete value="#{ajusteControle.ajuste.produto}"
+                                            required="true" 
+                                            requiredMessage="O produto é obrigatório!"
+                                            converter="#{ajusteControle.produtoConverter}"
+                                            completeMethod="#{ajusteControle.listaProdutos}" var="pro" 
+                                            itemLabel="#{pro.nome}"                                            
+                                            itemValue="#{pro}"/>
+                    Estoque anterior:<p:outputLabel value="#{ajusteControle.ajuste.produto.estoque}"/>
+                    Estoque ajustado:<p:inputText value="#{ajusteControle.ajuste.estoqueajustado}" required="true" requiredMessage="O ajuste é obrigatório!"/>
+                    Motivo:<p:inputText value="#{ajusteControle.ajuste.motivo}" required="true" requiredMessage="O motivo é obrigatório!" size="100"/>
+                </p:panelGrid>
+                <p:commandButton value="Salvar" action="listaproduto" actionListener="#{produtoControle.salvar()}" ajax="false"/>
+                <p:commandButton value="Cancelar" action="listaproduto" ajax="false" immediate="true"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

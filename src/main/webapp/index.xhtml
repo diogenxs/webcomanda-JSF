@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>OldBox</title>
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true">  
+
+            <p:layoutUnit position="north" resizable="true" closable="false" collapsible="false" size="90">  
+                <h1 align="center"><h:outputText value="OldBox Estúdio Bar"/></h1>
+                <!--                <p:panelGrid columns="2" styleClass="semBorda">
+                                    <h:graphicImage value="/imagens/logo.png" width="80"/><h:outputText value="Sistema de Confecção" style="font-size: xx-large"/> 
+                                </p:panelGrid>                -->
+            </p:layoutUnit>  
+            <p:layoutUnit position="south" size="30" style="text-align: center">  
+                <p align="center">Todos os direitos reservados.</p>
+            </p:layoutUnit>  
+
+            <p:layoutUnit position="west" size="180" header="Menu" resizable="false" closable="false" collapsible="true">  
+                <h:form>  
+                    <p:panelMenu style="width:170px">
+                        <p:menuitem value="Index" action="index" ajax="false"/>
+                        <p:submenu label="Index" style="">
+                            <p:menuitem value="Index" action="/index" actionListener="#{vendaControle.novo()}"  ajax="false"/>
+                            <p:menuitem value="Portaria" action="/portaria" ajax="false"/>
+                        </p:submenu>
+                        <p:submenu label="Cadastros" style="">
+                            
+                            <p:menuitem value="Comandas" action="/index" ajax="false"/>
+                            <p:menuitem value="Pessoa" action="/pessoa/listapessoa" ajax="false"/>
+                            <p:menuitem value="Produto" action="/produto/listaproduto" ajax="false"/>
+                            <p:menuitem value="TipoProduto" action="/tipoproduto/listatipoproduto" ajax="false"/>
+                            <p:menuitem value="Estado" action="/estado/listaestado" ajax="false"/>
+                            <p:menuitem value="Cidade" action="/cidade/listacidade" ajax="false"/>
+                        </p:submenu>  
+                        <p:submenu label="Movimentos">                              
+                            <p:menuitem value="Venda" action="/venda/listavenda" ajax="false"/>                            
+                            <p:menuitem value="Compra" action="/compra/listacompra" ajax="false"/>
+                            <p:menuitem value="Ajuste" action="/movimento/listaajuste" ajax="false"/>
+                        </p:submenu>  
+                        <p:submenu label="Relatórios" >  
+                            <p:menuitem value="Clientes" action="#" ajax="false"/>
+                        </p:submenu>                        
+                    </p:panelMenu>
+                </h:form>  
+            </p:layoutUnit>  
+
+            <p:layoutUnit position="center">                  
+                <ui:insert id="corpo" name="body">
+                    <p:dataGrid var="cmd" value="#{vendaControle.listaVendasAbertas}" columns="10" layout="grid"
+                                rows="12" paginator="true" id="cmd"
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                >
+                        <p:panel header="#{cmd.comanda.numero}" style="text-align:center">
+                            <h:panelGrid style="width:100%">
+                                <h:form>
+                                    
+                                    <h:outputText value="#{cmd.pessoa.nome}" /><br/>
+                                    <h:outputText value="#{cmd.total}" /><br/>
+                                    <p:commandButton value="Editar" action="venda/editavenda" actionListener="#{vendaControle.editar(cmd)}" ajax="false"/>
+                                    
+
+                                </h:form>
+                            </h:panelGrid>
+                        </p:panel>
+
+                    </p:dataGrid>
+
+                </ui:insert>          
+            </p:layoutUnit>  
+
+        </p:layout> 
+    </h:body>
+</html>
+

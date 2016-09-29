@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h2>Lista de Ajustes</h2>
+            <h:form>
+                <p:dataTable value="#{ajusteControle.listaTodos()}"
+                             paginator="true"
+                             rows="5"
+                             var="aj">
+                    <p:column headerText="Data Ajuste" filterBy="#{aj.dataajuste}" filterMatchMode="contains">
+                        <h:outputText value="#{aj.dataajuste}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Sao_Paulo"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Produto" filterBy="#{aj.produto.nome}" filterMatchMode="contains">
+                        #{aj.produto.nome}
+                    </p:column>
+                    <p:column headerText="Estoque Anterior" filterBy="#{aj.estoqueanterior}" filterMatchMode="contains">
+                        #{aj.estoqueanterior}
+                    </p:column>
+                    <p:column headerText="Estoque Ajustado" filterBy="#{aj.estoqueajustado}" filterMatchMode="contains">
+                        #{aj.estoqueajustado}
+                    </p:column>
+                    <p:column headerText="Motivo" filterBy="#{aj.motivo}" filterMatchMode="contains">
+                        #{aj.motivo}
+                    </p:column>
+                    <p:column headerText="Operações">
+                        <p:commandButton icon="ui-icon-closethick" actionListener="#{ajusteControle.remover(aj)}" action="listavenda" ajax="false"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Voltar" action="../index" ajax="false"/>
+                <p:commandButton value="Nova" action="editaajuste" actionListener="#{ajusteControle.novo()}" ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

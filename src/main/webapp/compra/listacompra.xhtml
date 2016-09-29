@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h2>Lista de Compras</h2>
+            <h:form>
+                <p:dataTable value="#{compraControle.listaTodos()}"
+                             paginator="true"
+                             rows="5"
+                             var="cpr">
+                    <p:column headerText="Data" filterBy="#{cpr.dataCompra}" filterMatchMode="contains">
+                        <h:outputText value="#{cpr.dataCompra}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Sao_Paulo"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Cliente" filterBy="#{cpr.pessoa.nome}" filterMatchMode="contains">
+                        #{cpr.pessoa.nome}
+                    </p:column>
+                    <p:column headerText="Total" filterBy="#{cpr.total}" filterMatchMode="contains">
+                        #{cpr.total}
+                    </p:column>
+                    <p:column headerText="Operações">
+                        <p:commandButton icon="ui-icon-pencil" actionListener="#{compraControle.editar(cpr)}" action="editacompra" ajax="false"/>
+                        <p:commandButton icon="ui-icon-closethick" actionListener="#{compraControle.remover(cpr)}" action="listacompra" ajax="false"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Voltar" action="../index" ajax="false"/>
+                <p:commandButton value="Nova" action="editacompra" actionListener="#{compraControle.novo()}" ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

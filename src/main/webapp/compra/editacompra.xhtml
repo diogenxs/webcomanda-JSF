@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h2>Cadastro de Compra</h2>            
+            <h:form>
+                <p:growl autoUpdate="true" showDetail="true"/>
+                <p:panelGrid columns="2">
+                    Data:<p:calendar value="#{compraControle.compra.dataCompra}" 
+                                     required="true" 
+                                     requiredMessage="O nome é obrigatório!"
+                                     pattern="dd/MM/yyyy"
+                                     locale="pt_BR"/>
+                    Fornecedor:<p:autoComplete value="#{compraControle.compra.pessoa}" 
+                                           required="true" 
+                                           requiredMessage="A pessoa é obrigatória!"
+                                           converter="#{compraControle.pessoaConverter}"
+                                           completeMethod="#{compraControle.listaPessoas}" var="pe" 
+                                           itemLabel="#{pe.nome}" 
+                                           itemValue="#{pe}"/>                    
+                </p:panelGrid>
+                <p:panel header="Itens da compra" id="painelitens">
+                    Produto:<p:autoComplete value="#{compraControle.itensCompra.produto}" 
+                                            converter="#{compraControle.produtoConverter}"
+                                            completeMethod="#{compraControle.listaProdutos}" var="pro" 
+                                           itemLabel="#{pro.nomePreco}"                                            
+                                           itemValue="#{pro}"/>
+                    Quantidade:<p:inputText value="#{compraControle.itensCompra.quantidade}"/>
+                    Preço:<p:inputText value="#{compraControle.itensCompra.preco}"/>
+                    <p:commandButton value="Adicionar" 
+                                     actionListener="#{compraControle.addItem()}" 
+                                     ajax="false" 
+                                     />
+                    <p:dataTable value="#{compraControle.compra.itensCompras}" 
+                                 var="iv"
+                                 emptyMessage="Nenhum item adicionado!"
+                                 paginator="true"
+                                 >
+                        <p:column headerText="Nome">
+                            #{iv.produto.nome}
+                        </p:column>
+                        <p:column headerText="Valor">
+                            #{iv.preco}
+                        </p:column>
+                        <p:column headerText="Quantidade">
+                            #{iv.quantidade}
+                        </p:column>
+                        <p:column headerText="SubTotal">
+                            #{iv.subTotal}
+                        </p:column>
+                        <p:column headerText="Remover">
+                            <p:commandButton icon="ui-icon-closethick" actionListener="#{compraControle.removerItem(iv)}" ajax="false"/>
+                        </p:column>
+                    </p:dataTable>
+                    
+                    <p:outputLabel value="Total: #{compraControle.compra.total}" style="color: blue;font-size: x-large"/>
+                </p:panel>
+                <p:commandButton value="Salvar" action="listacompra" actionListener="#{compraControle.salvar()}" ajax="false"/>
+                <p:commandButton value="Cancelar" action="listacompra" ajax="false" immediate="true"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
